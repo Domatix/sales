@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_import_sale_orders_form" model="ir.ui.view">
+      <field name="name">view.import_sale_orders.form</field>
+      <field name="model">import.order</field>
+      <field name="arch" type="xml">
+        <form string="Import Order">
+          <sheet>
+            <group col="4" name="main">
+              <field name="name" />
+              <field name="date" />
+
+            </group>
+            <group col="4" name="2">
+                <field name="client_count" readonly="1" />
+                <field name="order_count" readonly="1"/>
+                <field name="order_line_count" readonly="1" />
+            </group>
+          <notebook>
+            <page string="Order">
+
+                    <field name="import_order" readonly="1">
+                      <tree string="Orders">
+                        <field name="line_order"/>
+                        <field name="order_id" />
+                        <field name="channel" />
+                        <field name="sale_number" />
+                        <field name="sale_number_platform" />
+                      </tree>
+                      <form string="Orders">
+                    <group>
+                      <field name="line_order"/>
+                      <field name="order_id" />
+                      <field name="channel" />
+                      <field name="sale_number" />
+                      <field name="sale_number_platform" />
+                    </group>
+                  </form>
+                    </field>
+            </page>
+
+            <page string="Client">
+                   <field name="import_client" readonly="1">
+                     <tree string="Clients">
+                       <field name="line_client"/>
+                       <field name="partner_id" />
+                       <field name="user_channel" />
+                     </tree>
+                     <form string="Orders">
+                   <group>
+                     <field name="line_client"/>
+                     <field name="partner_id" />
+                     <field name="user_channel" />
+                   </group>
+                 </form>
+                   </field>
+            </page>
+          </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_import_sale_orders_tree" model="ir.ui.view">
+      <field name="name">view.import_sale_orders.tree</field>
+      <field name="model">import.order</field>
+      <field name="arch" type="xml">
+        <tree string="Import Orders">
+          <field name="name" />
+          <field name="date" />
+          <field name="client_count" />
+          <field name="order_count" />
+          <field name="order_line_count" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_import_sale_orders_search" model="ir.ui.view">
+      <field name="name">view.import_sale_orders.search</field>
+      <field name="model">import.order</field>
+      <field name="arch" type="xml">
+        <search string="Import order search">
+          <field name="name" />
+          <field name="date" />
+          <group string="Group By" name="groupby">
+            <filter name="name_groupby" string="name"
+              context="{'group_by': 'name'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record id="import_sale_orders_action" model="ir.actions.act_window">
+      <field name="name">Import Orders</field>
+      <field name="res_model">import.order</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Click to create a new "label".
+        </p>
+      </field>
+    </record>
+
+
+    <menuitem id="import_sale_orders_menu" parent="sale_orders_import_parent"
+      action="import_sale_orders_action" sequence="20"/>
+
+
+  </data>
+</openerp>

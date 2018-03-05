@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* dx_sale_order_mass_confirm
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-05 09:14+0000\n"
+"PO-Revision-Date: 2018-03-05 09:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.ui.view,arch_db:dx_sale_order_mass_confirm.view_confirm_sale_order
+msgid "Cancelar"
+msgstr "Cancelar"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.ui.view,arch_db:dx_sale_order_mass_confirm.view_confirm_sale_order
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.actions.act_window,name:dx_sale_order_mass_confirm.action_confirm_sale_order
+#: model:ir.ui.view,arch_db:dx_sale_order_mass_confirm.view_confirm_sale_order
+msgid "Confirm Sale Orders"
+msgstr "Confirmar Pedidos"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard_id
+msgid "ID"
+msgstr "ID"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model.fields,field_description:dx_sale_order_mass_confirm.field_sale_order_confirm_wizard_write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.model,name:dx_sale_order_mass_confirm.model_sale_order_confirm_wizard
+msgid "Sale Order Confirm"
+msgstr "Confirmar Pedidos"
+
+#. module: dx_sale_order_mass_confirm
+#: model:ir.ui.view,arch_db:dx_sale_order_mass_confirm.view_confirm_sale_order
+msgid "or"
+msgstr "o"
