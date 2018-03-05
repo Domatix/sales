@@ -1,4 +1,4 @@
-<h2>Sales</h2>
+<h2>Ventas</h2>
 
 ***
 
