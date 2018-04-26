@@ -26,4 +26,4 @@ Maintainer
 ----------
  * Domatix  <https://github.com/Domatix>
 
-To contribute to this module, please visit https://github.com/Domatix/accounting
+To contribute to this module, please visit https://github.com/Domatix/sales
