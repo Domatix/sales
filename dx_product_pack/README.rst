@@ -13,6 +13,7 @@ Uso
 =========
 
 1. Ir a variantes de productos y activar el check de Packs.
+2. Añadir los productos deseados en las líneas del pack
 
 Créditos
 ========
