@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
+#    odoo, Open Source Management Solution
 #    Copyright (c) 2015 Domatix (http://www.domatix.com)
 #                       info <email@domatix.com>
 #

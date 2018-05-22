@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
-from openerp import fields, models, api, exceptions
+
+from odoo import fields, models, api, exceptions
 from datetime import datetime, timedelta
 
 
 class Quote(models.Model):
     _name = 'sale.quote'
-    # _inherit = 'mail.thread'
+    _inherit = 'mail.thread'
 
     @api.depends('quote_line')
     def _get_cost_price(self):
@@ -13,11 +13,6 @@ class Quote(models.Model):
             for line in record.quote_line:
                 if line.cost_price:
                     record.cost_price += line.cost_price * line.qty
-
-    # @api.onchange('quote_line')
-
-
-
 
     name = fields.Char(
         string='Quote name',
@@ -40,12 +35,7 @@ class Quote(models.Model):
         [('modify', 'Modify'),
          ('same_as', 'Same as')],
         string='Origin')
-    # quote_taxes = fields.Many2many(
-    #     comodel_name='sale.quote.tax',
-    #     relation='quote_tax',
-    #     column1='quote',
-    #     column2='tax',
-    #     string='Quote taxes')
+
     quote_taxes = fields.One2many(
         'sale.quote.tax',
         'quote_id',
@@ -171,7 +161,6 @@ class Quote(models.Model):
                 self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount)
 
         if self.metodo_valoracion == "margen":
-            # import pdb; pdb.set_trace()
             self.margen_abs = self.margen_valoracion
             self.total_bases = self.cost_price + self.margen_abs
             if self.descuento1 != 0 or self.descuento2 != 0:
@@ -222,11 +211,6 @@ class Quote(models.Model):
                 if line.tax_line == tax.tax_id:
                     tax.base += line.cost_price * line.qty
                     tax.porcentaje = (tax.base / self.cost_price) * 100
-    # @api.multi
-    # def write(self, vals):
-    #     super(Quote, self).create(vals)
-    #     self.calcular_bases()
-    #     return True
 
     @api.multi
     def copy(self, default=None):
@@ -289,14 +273,6 @@ class QuoteLine(models.Model):
     _name = 'sale.quote.line'
     _order = 'order, line_order'
 
-    # @api.model
-    # def _compute_line_order(self):
-    #     import pdb; pdb.set_trace()
-    #     maxi = 0
-    #     for line in self.quote_id.quote_line:
-    #         if line.order > maxi:
-    #             maxi = line.order
-    #     self.line_order = maxi
 
     name = fields.Text(
         string='Description',
@@ -305,7 +281,6 @@ class QuoteLine(models.Model):
         string= 'Order')
     line_order = fields.Integer(
         string= 'Line Order')
-        # default=_compute_line_order)
     product_id = fields.Many2one(
         comodel_name='product.product',
         string='Product',
