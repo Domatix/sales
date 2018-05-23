@@ -5,7 +5,12 @@ from datetime import datetime, timedelta
 
 class Quote(models.Model):
     _name = 'sale.quote'
-    _inherit = 'mail.thread'
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _description = "Presupuestos Disber"
+
+    @api.model
+    def _default_note(self):
+        return self.env['ir.config_parameter'].sudo().get_param('sale.use_sale_note') and self.env.user.company_id.sale_note or ''
 
     @api.depends('quote_line')
     def _get_cost_price(self):
@@ -94,6 +99,7 @@ class Quote(models.Model):
         string='Total Bases')
     mismo_precio = fields.Float(
         string='Mismo Precio')
+    note = fields.Text('Terms and conditions', default=_default_note)
 
     _sql_constraints = [
         ('name_unique',
@@ -271,14 +277,13 @@ class Quote(models.Model):
 
 class QuoteLine(models.Model):
     _name = 'sale.quote.line'
-    _order = 'order, line_order'
+    _order = 'sequence, line_order'
 
 
     name = fields.Text(
         string='Description',
         related="product_id.description")
-    order = fields.Integer(
-        string= 'Order')
+    sequence = fields.Integer(string='Sequence', default=10)
     line_order = fields.Integer(
         string= 'Line Order')
     product_id = fields.Many2one(
@@ -298,14 +303,17 @@ class QuoteLine(models.Model):
         column2='tax',
         string='Taxes',
         related="product_id.taxes_id")
-    line_total = fields.Float(
-        string='Subtotal')
+    line_subtotal = fields.Monetary(compute='_compute_amount', string='Subtotal', readonly=True, store=True)
+    price_tax = fields.Float(compute='_compute_amount', string='Taxes', readonly=True, store=True)
+    line_total = fields.Monetary(compute='_compute_amount', string='Total', readonly=True, store=True)
     quote_id = fields.Many2one(
         comodel_name='sale.quote',
         string='Quote')
     stock = fields.Float(
         string='Stock available',
         related="product_id.qty_available")
+
+    currency_id = fields.Many2one(related='quote_id.currency_id', store=True, string='Currency', readonly=True)
 
     @api.model
     def create(self, vals):
@@ -326,6 +334,20 @@ class QuoteLine(models.Model):
                         'message': "La cantidad no puede ser menor que 1. Se cambiará automaticamente.",
                     },
                 }
+
+    @api.depends('qty', 'tax_line')
+    def _compute_amount(self):
+        """
+        Compute the amounts of the SO line.
+        """
+        for line in self:
+            price = line.cost_price
+            taxes = line.tax_line.compute_all(price, line.quote_id.currency_id, line.qty, product=line.product_id, partner=line.quote_id.partner_id)
+            line.update({
+                'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                'line_total': taxes['total_included'],
+                'line_subtotal': taxes['total_excluded'],
+            })
 
 
 class QuoteTax(models.Model):

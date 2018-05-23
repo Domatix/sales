@@ -1,2 +1,2 @@
-import product
-import quote
+from . import product
+from . import quote

@@ -1,132 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="view_quote_form" model="ir.ui.view">
-            <field name="name">view.quote.form</field>
-            <field name="model">sale.quote</field>
-            <field name="arch" type="xml">
-                <form string="Quote">
-                    <header>
-                        <button name="action_to_draft" type="action" string="Draft" states="approved,sent" class="oe_read_only"/>
-                        <button name="action_approved" type="action" string="Approve Quote" states="draft" class="oe_highlight oe_read_only"/>
-                        <button name="action_sent" type="action" string="Send Quote" states="approved" class="oe_highlight oe_read_only"/>
-                        <button name="action_transfered" type="action" string="Transfer Quote" states="sent" class="oe_highlight oe_read_only"/>
-                        <field name="state" widget="statusbar"/>
-                    </header>
-                    <sheet>
-                        <label for="name" name="Name" class="oe_edit_only"/>
-                        <h1><field name="name"/></h1>
-                        <group name="name">
-                            <field name="partner_id"/>
-                            <field name="expiration"/>
-                            <field name="currency_id"/>
-                        </group>
-                        <div>
-                            <label for="origin" name="Origin:"/>
-                            <field name="origin" class="oe_inline"/>
-                            <label for="quote_origin" name="Quote:" class="oe_edit_only"/>
-                            <field name="quote_origin" class="oe_inline"/>
-                        </div>
-                        <notebook>
-                            <page name="valoracion" string="Valoración">
-                                <group>
-                                    <group name="tax">
-                                        <field name="cost_price" string=" Precio Coste"/>
-                                        <!-- <field name="total_bases" string="Total Base"/> -->
-                                        <field name="amount_total"/>
-                                        <field name="margen_abs"/>
-                                        <field name="margen_porcentaje"/>
-                                    </group>
-                                    <group>
-                                        <field name="descuento1"/>
-                                        <field name="descuento2"/>
-                                        <field name="metodo_valoracion"/>
-                                        <field name="porcentaje" attrs="{'invisible':[('metodo_valoracion','!=', 'porcentaje')]}"/>
-                                        <field name="margen_valoracion" attrs="{'invisible':[('metodo_valoracion','!=', 'margen')]}"/>
-                                        <field name="iva_incluido" attrs="{'invisible':[('metodo_valoracion','!=', 'ii')]}"/>
-                                        <field name="bases" attrs="{'invisible':[('metodo_valoracion','!=', 'bases')]}"/>
-                                        <field name="mismo_precio" attrs="{'invisible':[('metodo_valoracion','!=', 'mismo')]}"/>
-                                        <button string="Valorar" name="valorar_presupuesto" type="object" class="oe_edit_only" attrs="{'invisible':[('metodo_valoracion', '=', False)]}"/>
-                                    </group>
-                                    <group>
-                                        <button string="Actualizar impuestos" name="calcular_bases" type="object" class="oe_edit_only"/>
-                                    </group>
-                                </group>
-                                <field name="quote_taxes" options="{'no_quick_create':True,'no_create_edit':True}">
-                                    <tree>
-                                        <field name="tax_id"/>
-                                        <field name="base"/>
-                                        <field name="porcentaje"/>
-                                    </tree>
-                                </field>
-                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
-                                    <div class="oe_subtotal_footer_separator oe_inline">
-                                        <label for="total_bases"/>
-                                    </div>
-                                    <field name="total_bases" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                                </group>
-                            </page>
-                            <page name="lines" String="Productos">
-                                <field name="quote_line" nolabel="1">
-                                    <tree editable="top/bottom">
-                                        <field name="order" readonly="1"/>
-                                        <field name="line_order"/>
-                                        <field name="product_id"/>
-                                        <field name="qty"/>
-                                        <field name="cost_price" readonly="1"/>
-                                        <field name="stock" readonly="1"/>
-                                        <field name="tax_line" widget="many2many_tags"/>
-                                        <field name="line_total"/>
-                                    </tree>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                    <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
-                </form>
-            </field>
-        </record>
 
-        <record id="view_quote_tree" model="ir.ui.view">
-            <field name="name">view.quote.tree</field>
-            <field name="model">sale.quote</field>
-            <field name="arch" type="xml">
-                <tree string="Sale Quotes">
-                    <field name="name"/>
-                    <field name="partner_id"/>
-                    <field name="origin"/>
-                    <field name="quote_origin" widget="many2one_clickable"/>
-                    <field name="expiration"/>
+  <record id="view_quote_form" model="ir.ui.view">
+    <field name="name">view.quote.form</field>
+    <field name="model">sale.quote</field>
+    <field name="arch" type="xml">
+      <form string="Quote" class="o_sale_order">
+        <header>
+          <button name="action_to_draft" type="action" string="Draft" states="approved,sent" class="oe_read_only"/>
+          <button name="action_approved" type="action" string="Approve Quote" states="draft" class="oe_highlight oe_read_only"/>
+          <button name="action_sent" type="action" string="Send Quote" states="approved" class="oe_highlight oe_read_only"/>
+          <button name="action_transfered" type="action" string="Transfer Quote" states="sent" class="oe_highlight oe_read_only"/>
+          <field name="state" widget="statusbar"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <!-- <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}">
+              <field name="invoice_count" widget="statinfo" string="Invoices"/>
+            </button> -->
+          </div>
+          <div class="oe_title">
+            <label for="name" name="Name" class="oe_edit_only"/>
+            <h1><field name="name"/></h1>
+          </div>
+          <group name="name">
+            <group>
+              <field name="partner_id"/>
+              <field name="expiration"/>
+              <field name="currency_id"/>
+            </group>
+          </group>
+          <div>
+            <label for="origin" name="Origin:"/>
+            <field name="origin" class="oe_inline"/>
+            <label for="quote_origin" name="Quote:" class="oe_edit_only"/>
+            <field name="quote_origin" class="oe_inline"/>
+          </div>
+          <notebook>
+            <page name="lines" string="Productos">
+
+                <field name="quote_line" nolabel="1" mode="tree" attrs="{'readonly': [('state', 'in', ('transfered'))]}">>
+                  <tree editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="line_order"/>
+                    <field name="product_id"/>
+                    <field name="qty"/>
+                    <field name="cost_price" readonly="1"/>
+                    <field name="stock" readonly="1"/>
+                    <field name="tax_line" widget="many2many_tags"/>
+                    <field name="line_subtotal" widget="monetary"/>
+                    <field name="line_total" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                  </tree>
+                </field>
+                <field name="note" class="oe_inline" placeholder="Setup default terms and conditions in your sales settings ..."/>
+                <div class="oe_clear"/>
+
+            </page>
+            <page name="valoracion" string="Valoración">
+              <group>
+                <group name="tax">
+                  <field name="cost_price" string=" Precio Coste"/>
+                  <!-- <field name="total_bases" string="Total Base"/> -->
+                  <field name="amount_total"/>
+                  <field name="margen_abs"/>
+                  <field name="margen_porcentaje"/>
+                </group>
+                <group>
+                  <field name="descuento1"/>
+                  <field name="descuento2"/>
+                  <field name="metodo_valoracion"/>
+                  <field name="porcentaje" attrs="{'invisible':[('metodo_valoracion','!=', 'porcentaje')]}"/>
+                  <field name="margen_valoracion" attrs="{'invisible':[('metodo_valoracion','!=', 'margen')]}"/>
+                  <field name="iva_incluido" attrs="{'invisible':[('metodo_valoracion','!=', 'ii')]}"/>
+                  <field name="bases" attrs="{'invisible':[('metodo_valoracion','!=', 'bases')]}"/>
+                  <field name="mismo_precio" attrs="{'invisible':[('metodo_valoracion','!=', 'mismo')]}"/>
+                  <button string="Valorar" name="valorar_presupuesto" type="object" class="oe_edit_only" attrs="{'invisible':[('metodo_valoracion', '=', False)]}"/>
+                </group>
+                <group>
+                  <button string="Actualizar impuestos" name="calcular_bases" type="object" class="oe_edit_only"/>
+                </group>
+              </group>
+              <field name="quote_taxes" options="{'no_quick_create':True,'no_create_edit':True}">
+                <tree>
+                  <field name="tax_id"/>
+                  <field name="base"/>
+                  <field name="porcentaje"/>
                 </tree>
-            </field>
-        </record>
+              </field>
+              <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                <div class="oe_subtotal_footer_separator oe_inline">
+                  <label for="total_bases"/>
+                </div>
+                <field name="total_bases" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+        <div class="oe_chatter">
+          <field name="message_follower_ids" widget="mail_followers"/>
+          <field name="activity_ids" widget="mail_activity"/>
+          <field name="message_ids" widget="mail_thread"/>
+        </div>
+      </form>
+    </field>
+  </record>
 
-        <record id="view_quote_search" model="ir.ui.view">
-            <field name="name">view.quote.search</field>
-            <field name="model">sale.quote</field>
-            <field name="arch" type="xml">
-                <search string="Quote Search">
-                    <field name="name"/>
-                </search>
-            </field>
-        </record>
+  <record id="view_quote_tree" model="ir.ui.view">
+    <field name="name">view.quote.tree</field>
+    <field name="model">sale.quote</field>
+    <field name="arch" type="xml">
+      <tree string="Sale Quotes">
+        <field name="name"/>
+        <field name="partner_id"/>
+        <field name="origin"/>
+        <field name="quote_origin" widget="many2one_clickable"/>
+        <field name="expiration"/>
+      </tree>
+    </field>
+  </record>
 
-        <record id="quote_action" model="ir.actions.act_window">
-            <field name="name">Quotes</field>
-            <field name="res_model">sale.quote</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click to create a new quote.
-                </p>
-            </field>
-        </record>
+  <record id="view_quote_search" model="ir.ui.view">
+    <field name="name">view.quote.search</field>
+    <field name="model">sale.quote</field>
+    <field name="arch" type="xml">
+      <search string="Quote Search">
+        <field name="name"/>
+      </search>
+    </field>
+  </record>
 
-        <menuitem id="sale_quote" parent="base.menu_sales" action="quote_action" name="Quotes"/>
+  <record id="quote_action" model="ir.actions.act_window">
+    <field name="name">Quotes</field>
+    <field name="res_model">sale.quote</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Click to create a new quote.
+      </p>
+    </field>
+  </record>
 
-    </data>
+  <menuitem id="sale_quote_disber" parent="sale.sale_order_menu" action="quote_action" name="Quotes Disber"/>
+
 </odoo>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-  <data>
+
     <record model="ir.ui.view" id="product_pack_form_view">
       <field name="name">product.pack.form.view</field>
       <field name="model">product.product</field>
@@ -13,5 +13,5 @@
         </field>
       </field>
     </record>
-  </data>
+
 </odoo>

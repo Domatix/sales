@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
+
 		<!-- improved idea categories list -->
 		<record id="order_product_category_form" model="ir.ui.view">
 		<field name="name">order.product.category.form</field>
@@ -15,5 +15,5 @@
 			</xpath>
 		</field>
 		</record>
-	</data>
+
 </odoo>

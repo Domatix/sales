@@ -286,7 +286,7 @@ msgstr "Presupuesto origen"
 #: model:ir.actions.act_window,name:product_pack.quote_action
 #: model:ir.ui.menu,name:product_pack.sale_quote
 msgid "Quotes"
-msgstr "Presupuestos"
+msgstr "Presupuestos Disber"
 
 #. module: product_pack
 #: view:sale.quote:product_pack.view_quote_tree
