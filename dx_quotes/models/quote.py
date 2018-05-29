@@ -164,7 +164,7 @@ class Quote(models.Model):
             self.amount_total = 0
             for taxes in self.quote_taxes:
                 taxes.base = taxes.porcentaje * self.total_bases / 100
-                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount)
+                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount/100)
 
         if self.metodo_valoracion == "margen":
             self.margen_abs = self.margen_valoracion
@@ -175,13 +175,13 @@ class Quote(models.Model):
             self.amount_total = 0
             for taxes in self.quote_taxes:
                 taxes.base = taxes.porcentaje * self.total_bases / 100
-                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount)
+                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount/100)
         if self.metodo_valoracion == "ii":
             self.amount_total = self.iva_incluido
             self.total_bases = 0
             for taxes in self.quote_taxes:
                 base_temp = self.amount_total * taxes.porcentaje / 100.00
-                taxes.base = base_temp / (1.00000 + taxes.tax_id.amount)
+                taxes.base = base_temp / (1.00000 + taxes.tax_id.amount/100)
                 self.total_bases += taxes.base
             self.margen_abs = self.total_bases - self.cost_price
             self.margen_porcentaje = self.margen_abs * 100 / self.cost_price
@@ -192,7 +192,7 @@ class Quote(models.Model):
             self.amount_total = 0
             for taxes in self.quote_taxes:
                 taxes.base = taxes.porcentaje * self.total_bases / 100
-                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount)
+                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount/100)
         if self.metodo_valoracion == "mismo":
             self.total_bases = self.total_bases + ((self.total_bases * self.mismo_precio)/100)
             self.margen_abs = self.total_bases - self.cost_price
@@ -200,7 +200,7 @@ class Quote(models.Model):
             self.amount_total = 0
             for taxes in self.quote_taxes:
                 taxes.base = taxes.porcentaje * self.total_bases / 100
-                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount)
+                self.amount_total += taxes.base + (taxes.base * taxes.tax_id.amount/100)
 
     @api.multi
     def calcular_bases(self):
@@ -252,6 +252,7 @@ class Quote(models.Model):
 
     @api.multi
     def action_approved(self):
+        import pdb; pdb.set_trace()
         if self._validate_valoracion() is True:
             self.state = 'approved'
         else:

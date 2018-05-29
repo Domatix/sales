@@ -7,10 +7,10 @@
     <field name="arch" type="xml">
       <form string="Quote" class="o_sale_order">
         <header>
-          <button name="action_to_draft" type="action" string="Draft" states="approved,sent" class="oe_read_only"/>
-          <button name="action_approved" type="action" string="Approve Quote" states="draft" class="oe_highlight oe_read_only"/>
-          <button name="action_sent" type="action" string="Send Quote" states="approved" class="oe_highlight oe_read_only"/>
-          <button name="action_transfered" type="action" string="Transfer Quote" states="sent" class="oe_highlight oe_read_only"/>
+          <button name="action_to_draft" type="object" string="Draft" states="approved,sent" class="oe_read_only"/>
+          <button name="action_approved" type="object" string="Approve " states="draft" class="oe_highlight oe_read_only"/>
+          <button name="action_sent" type="object" string="Send Quote" states="approved" class="oe_highlight oe_read_only"/>
+          <button name="action_transfered" type="object" string="Transfer Quote" states="sent" class="oe_highlight oe_read_only"/>
           <field name="state" widget="statusbar"/>
         </header>
         <sheet>
