@@ -252,7 +252,6 @@ class Quote(models.Model):
 
     @api.multi
     def action_approved(self):
-        import pdb; pdb.set_trace()
         if self._validate_valoracion() is True:
             self.state = 'approved'
         else:
