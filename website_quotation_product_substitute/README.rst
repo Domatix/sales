@@ -2,18 +2,15 @@
 Website Quotation Product Substitution
 ======================================
 
-Based on `procurement_sale_forecast <https://github.com/odoomrp/odoomrp-wip/tree/8.0/procurement_sale_forecast>`_.
+This module allows you add substitute products on the order and link them to the sale order line.
+Afterwards, you can change the products via Odoo or the online quotation.
 
-This module allows you to create a sale forecast.
-
-* Possibility to load sale order lines or a sale forecast previously created.
-* Allows you to group forecast lines by product, partner, date, category and forecast.
-* There's a pivot view where you can see the real quantity and the forecasted quantity.
 
 Usage
 =====
 
-Sales -> Sale Forecast
+Sales -> Quotation/Sale Order -> Subsitute products
+Sales -> Quotation/Sale Order -> Online link through 'Send email'
 
 Contributors
 ============
