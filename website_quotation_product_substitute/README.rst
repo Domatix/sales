@@ -2,7 +2,7 @@
 Website Quotation Product Substitution
 ======================================
 
-This module allows you add substitute products on the order and link them to the sale order line.
+This module allows you to add substitute products on the order and link them to a specific sale order line.
 Afterwards, you can change the products via Odoo or the online quotation.
 
 
