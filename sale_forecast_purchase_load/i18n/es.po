@@ -1,0 +1,132 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* sale_forecast_purchase_load
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-09 12:43+0000\n"
+"PO-Revision-Date: 2018-07-09 12:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.ui.view,arch_db:sale_forecast_purchase_load.purchase_forecast_load_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_product_categ_id
+msgid "Category"
+msgstr "Categoría"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_date_from
+msgid "Date from"
+msgstr "Fecha desde"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_date_to
+msgid "Date to"
+msgstr "Fecha hasta"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_display_name
+msgid "Display Name"
+msgstr "Nombre a Mostrar"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_factor
+msgid "Factor"
+msgstr "Factor"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_forecast_id
+msgid "Forecast"
+msgstr "Previsión"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_id
+msgid "ID"
+msgstr "ID"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.ui.view,arch_db:sale_forecast_purchase_load.purchase_forecast_load_form_view
+msgid "Load"
+msgstr "Cargar"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.ui.view,arch_db:sale_forecast_purchase_load.purchase_forecast_load_form_view
+msgid "Load Purchases"
+msgstr "Cargar compras"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.ui.view,arch_db:sale_forecast_purchase_load.sale_forecast_purchase_load_form_view
+msgid "Load purchases"
+msgstr "Cargar compras"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.ui.view,arch_db:sale_forecast_purchase_load.purchase_load_forecast_form_view
+msgid "Load to forecast"
+msgstr "Cargar a previsión"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_partner_id
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_purchase_id
+msgid "Purchase"
+msgstr "Compra"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_product_tmpl_id
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.ui.view,arch_db:sale_forecast_purchase_load.purchase_forecast_load_form_view
+msgid "or"
+msgstr "o"
+
+#. module: sale_forecast_purchase_load
+#: model:ir.actions.act_window,name:sale_forecast_purchase_load.action_purchase_forecast_load_view
+#: model:ir.model,name:sale_forecast_purchase_load.model_purchase_forecast_load
+msgid "purchase.forecast.load"
+msgstr "purchase.forecast.load"

@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_dx_sale_order_import,dx_sale_order_import.import_order,model_import_order,,1,1,1,1
-access_dx_sale_order_import2,dx_sale_order_import.import_order_line,model_import_order_line,,1,1,1,1
-access_product_sku,access_product_sku,model_product_sku,,1,1,1,1
-access_channel_type,access_channel_type,model_channel_type,,1,1,1,1

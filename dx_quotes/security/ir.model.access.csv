@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-quote_all,quote_all,product_pack.model_sale_quote,,1,1,1,1
