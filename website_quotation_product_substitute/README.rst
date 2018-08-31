@@ -9,8 +9,8 @@ Afterwards, you can change the products via Odoo or the online quotation.
 Usage
 =====
 
-Sales -> Quotation/Sale Order -> Subsitute products
-Sales -> Quotation/Sale Order -> Online link through 'Send email'
+* Sales -> Quotation/Sale Order -> Subsitute products
+* Sales -> Quotation/Sale Order -> Online link through 'Send email'
 
 Contributors
 ============
