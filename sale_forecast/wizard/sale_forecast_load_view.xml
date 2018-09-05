@@ -30,7 +30,7 @@
         </record>
 
         <record model="ir.actions.act_window" id="action_sale_forecast_load_view">
-            <field name="name">sale.forecast.load</field>
+            <field name="name">Load sales</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.forecast.load</field>
             <field name="view_type">form</field>
@@ -60,7 +60,7 @@
         </record>
 
         <record id="action_load_sale_forecast_act_window" model="ir.actions.act_window">
-            <field name="name">Load sale forecast from sale forecast</field>
+            <field name="name">Load sale forecast</field>
             <field name="res_model">self.sale.forecast.load</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>

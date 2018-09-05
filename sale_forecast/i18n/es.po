@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-16 09:22+0000\n"
-"PO-Revision-Date: 2018-07-16 09:22+0000\n"
+"POT-Creation-Date: 2018-09-05 10:58+0000\n"
+"PO-Revision-Date: 2018-09-05 10:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -100,12 +100,6 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: sale_forecast
-#: code:addons/sale_forecast/models/sale.py:48
-#, python-format
-msgid "Error! Date to must be lower than date from."
-msgstr "¡Error! La fecha inicio debe ser menor que la fecha fin."
-
-#. module: sale_forecast
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_load_factor
 msgid "Factor"
 msgstr "Factor"
@@ -146,16 +140,16 @@ msgstr "Última Modificación en"
 
 #. module: sale_forecast
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_line_write_uid
-#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_write_uid
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_load_write_uid
+#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_write_uid
 #: model:ir.model.fields,field_description:sale_forecast.field_self_sale_forecast_load_write_uid
 msgid "Last Updated by"
 msgstr "Última Actualización por"
 
 #. module: sale_forecast
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_line_write_date
-#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_write_date
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_load_write_date
+#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_write_date
 #: model:ir.model.fields,field_description:sale_forecast.field_self_sale_forecast_load_write_date
 msgid "Last Updated on"
 msgstr "Última Actualización el"
@@ -187,14 +181,19 @@ msgid "Load from sale forecast"
 msgstr "Cargar previsión de venta"
 
 #. module: sale_forecast
+#: model:ir.actions.act_window,name:sale_forecast.action_load_sale_forecast_act_window
+msgid "Load sale forecast"
+msgstr "Cargar previsión de venta"
+
+#. module: sale_forecast
 #: model:ir.model,name:sale_forecast.model_self_sale_forecast_load
 msgid "Load sale forecast from existing sale forecast"
 msgstr "Cargar previsión de venta"
 
 #. module: sale_forecast
-#: model:ir.actions.act_window,name:sale_forecast.action_load_sale_forecast_act_window
-msgid "Load sale forecast from sale forecast"
-msgstr "Cargar previsión de venta"
+#: model:ir.actions.act_window,name:sale_forecast.action_sale_forecast_load_view
+msgid "Load sales"
+msgstr "Cargar ventas"
 
 #. module: sale_forecast
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_name
@@ -218,16 +217,6 @@ msgstr "Cliente"
 #: model:ir.ui.view,arch_db:sale_forecast.view_sale_forecast_line_pivot
 msgid "Pivot view"
 msgstr "Pivot view"
-
-#. module: sale_forecast
-#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_line_procurement_id
-msgid "Procurement"
-msgstr "Procurement"
-
-#. module: sale_forecast
-#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_procurement_count
-msgid "Procurement Count"
-msgstr "Procurement Count"
 
 #. module: sale_forecast
 #: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_line_product_id
@@ -342,11 +331,6 @@ msgid "Unit Price"
 msgstr "Precio unitario"
 
 #. module: sale_forecast
-#: model:ir.model.fields,field_description:sale_forecast.field_sale_forecast_warehouse_id
-msgid "Warehouse"
-msgstr "Almacén"
-
-#. module: sale_forecast
 #: model:ir.ui.view,arch_db:sale_forecast.sale_forecast_load_form_view
 msgid "or"
 msgstr "o"
@@ -362,12 +346,6 @@ msgid "sale.forecast.line"
 msgstr "sale.forecast.line"
 
 #. module: sale_forecast
-#: model:ir.actions.act_window,name:sale_forecast.action_sale_forecast_load_view
 #: model:ir.model,name:sale_forecast.model_sale_forecast_load
 msgid "sale.forecast.load"
 msgstr "Carga de ventas en prevision"
-
-#. module: sale_forecast
-#: model:ir.ui.view,arch_db:sale_forecast.sale_forecast_line_tree_editable_view
-msgid "⇒ Request Procurement"
-msgstr "⇒ Solicitar abastecimiento"
