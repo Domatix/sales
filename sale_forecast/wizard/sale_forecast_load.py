@@ -165,11 +165,12 @@ class SaleForecastLoad(models.TransientModel):
         for partner in result.keys():
             for product in result[partner].keys():
                 prod_vals = result[partner][product]
-                line = forecast_line_obj.search([
-                            ('forecast_id', '=', self.forecast_id.id),
-                            ('partner_id', '=', partner),
-                            ('product_id', '=', product)
-                            ])
+                line = forecast_line_obj.search(
+                    [
+                        ('forecast_id', '=', self.forecast_id.id),
+                        ('partner_id', '=', partner),
+                        ('product_id', '=', product)
+                    ])
                 unit_price = prod_vals['amount'] / prod_vals['qty']
                 if line:
                     line.unit_price = (line.unit_price * line.qty + unit_price
@@ -213,15 +214,16 @@ class SelfSaleForecastLoad(models.TransientModel):
     def button_confirm(self):
         for line in self.forecast_sales.forecast_lines:
             forecast_line_obj = self.env['sale.forecast.line']
-            line_dest = forecast_line_obj.search([
-                        ('forecast_id', '=', self.forecast_id.id),
-                        ('partner_id', '=', line.partner_id.id),
-                        ('product_id', '=', line.product_id.id)
-                        ])
+            line_dest = forecast_line_obj.search(
+                [
+                    ('forecast_id', '=', self.forecast_id.id),
+                    ('partner_id', '=', line.partner_id.id),
+                    ('product_id', '=', line.product_id.id)
+                ])
             if line_dest:
                 line_dest.unit_price = (line_dest.unit_price * line_dest.qty
                                         + line.unit_price * line.qty) / (
-                                        line_dest.qty + line.qty)
+                                            line_dest.qty + line.qty)
 
                 line_dest.qty += line.qty
             else:

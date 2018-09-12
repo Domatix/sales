@@ -150,11 +150,12 @@ class PurchaseForecastLoad(models.TransientModel):
         for partner in result.keys():
             for product in result[partner].keys():
                 prod_vals = result[partner][product]
-                line = forecast_line_obj.search([
-                            ('forecast_id', '=', self.forecast_id.id),
-                            ('partner_id', '=', partner),
-                            ('product_id', '=', product)
-                            ])
+                line = forecast_line_obj.search(
+                    [
+                        ('forecast_id', '=', self.forecast_id.id),
+                        ('partner_id', '=', partner),
+                        ('product_id', '=', product)
+                     ])
                 unit_price = prod_vals['amount'] / prod_vals['qty']
                 if line:
                     line.unit_price = (line.unit_price * line.qty + unit_price
