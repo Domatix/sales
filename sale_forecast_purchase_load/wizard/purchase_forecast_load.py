@@ -155,7 +155,7 @@ class PurchaseForecastLoad(models.TransientModel):
                         ('forecast_id', '=', self.forecast_id.id),
                         ('partner_id', '=', partner),
                         ('product_id', '=', product)
-                     ])
+                    ])
                 unit_price = prod_vals['amount'] / prod_vals['qty']
                 if line:
                     line.unit_price = (line.unit_price * line.qty + unit_price

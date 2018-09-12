@@ -21,8 +21,8 @@ class TestSaleForecastFlow(common.TransactionCase):
         self.pricelist_model = self.env['product.pricelist']
         self.partner = self.env.ref('base.res_partner_1')
         self.partner_agrolite = self.env.ref('base.res_partner_2')
-        self.product1 = self.env['product.product'].create({
-            'name': 'Product A',
+        self.productsf = self.env['product.product'].create({
+            'name': 'Product Sale Forecast',
             'type': 'product',
             'categ_id': self.env.ref('product.product_category_all').id,
         })
@@ -38,8 +38,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.product1.name,
-                    'product_id': self.product1.id,
+                    'name': self.productsf.name,
+                    'product_id': self.productsf.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -51,8 +51,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.product1.name,
-                    'product_id': self.product1.id,
+                    'name': self.productsf.name,
+                    'product_id': self.productsf.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -80,13 +80,13 @@ class TestSaleForecastFlow(common.TransactionCase):
         load_sales_wizard_dict = self.env['sale.forecast.load'].with_context(
             context).create(
             {
-                'factor': 2,
+                'factor': 3,
                 'forecast_id': sf.id,
             })
         load_sales_wizard_dict.load_sales()
         self.assertEqual(
             sum(sf.forecast_lines.mapped('qty')),
-            2,
+            3,
             'Sales are not loaded proper.')
 
     def test_sale_forecast_load_sale_forecast(self):
@@ -98,7 +98,7 @@ class TestSaleForecastFlow(common.TransactionCase):
             'date_to': date.today() + relativedelta(years=2),
             'forecast_lines': [
                 (0, 0, {
-                    'product_id': self.product1.id,
+                    'product_id': self.productsf.id,
                     'qty': 1,
                 })
             ]
@@ -140,8 +140,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.product1.name,
-                    'product_id': self.product1.id,
+                    'name': self.productsf.name,
+                    'product_id': self.productsf.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -153,8 +153,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.product1.name,
-                    'product_id': self.product1.id,
+                    'name': self.productsf.name,
+                    'product_id': self.productsf.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -168,7 +168,7 @@ class TestSaleForecastFlow(common.TransactionCase):
             'date_to': date.today() + relativedelta(months=1),
             'forecast_lines': [
                 (0, 0, {
-                    'product_id': self.product1.id,
+                    'product_id': self.productsf.id,
                     'qty': 1,
                 })
             ]

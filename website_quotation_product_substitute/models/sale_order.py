@@ -80,7 +80,7 @@ class SaleOrderSubstitute(models.Model):
                 partner=line.order_id.partner_shipping_id)
             line.update({
                 'price_tax': sum(t.get('amount', 0.0) for t in taxes.get(
-                                                                'taxes', [])),
+                    'taxes', [])),
                 'price_total': taxes['total_included'],
                 'price_subtotal': taxes['total_excluded'],
             })

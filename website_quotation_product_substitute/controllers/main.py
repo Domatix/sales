@@ -18,7 +18,7 @@ class SaleQuote(http.Controller):
         if Order.state not in ('draft', 'sent'):
             return False
         LineSub = request.env['sale.order.substitute'].sudo().browse(
-                                                                int(line_id))
+            int(line_id))
         # request.env['sale.order.line'].sudo().browse(int(line_id))
         LineSub.button_substitute_product()
         return werkzeug.utils.redirect(
