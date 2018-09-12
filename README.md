@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/OCA/project)](https://travis-ci.org/Domatix/sales)
+[![Build Status](https://travis-ci.org/Domatix/sales.svg?branch=11.0)](https://travis-ci.org/Domatix/sales)
 
 <h2>Ventas</h2>
 
