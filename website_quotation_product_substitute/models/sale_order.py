@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -36,13 +35,16 @@ class SaleOrder(models.Model):
     @api.multi
     def order_lines_layouted(self):
         """
-        Returns this order lines classified by sale_layout_category and separated in
-        pages according to the category pagebreaks. Used to render the report.
+        Returns this order lines classified by sale_layout_category and
+        separated in pages according to the category pagebreaks. Used to
+        render the report.
         """
         self.ensure_one()
         report_pages = [[]]
-        for category, lines in groupby(self.order_line, lambda l: l.layout_category_id):
-            # If last added category induced a pagebreak, this one will be on a new page
+        for category, lines in groupby(
+                self.order_line, lambda l: l.layout_category_id):
+            # If last added category induced a pagebreak, this one will be on
+            # a new page
             if report_pages[-1] and report_pages[-1][-1]['pagebreak']:
                 report_pages.append([])
             # Append category to current report page
@@ -127,48 +129,68 @@ class SaleOrderSubstitute(models.Model):
     discount = fields.Float(
         string='Discount')
 
-    currency_id = fields.Many2one(related='order_id.currency_id', store=True, string='Currency', readonly=True)
+    currency_id = fields.Many2one(
+        related='order_id.currency_id',
+        store=True,
+        string='Currency',
+        readonly=True)
     price_subtotal = fields.Float(
         string='Amount',
         compute='_compute_amount',
         store=True)
-    price_tax = fields.Float(compute='_compute_amount', string='Taxes', readonly=True, store=True)
-    price_total = fields.Monetary(compute='_compute_amount', string='Total', readonly=True, store=True)
+    price_tax = fields.Float(
+        compute='_compute_amount',
+        string='Taxes',
+        readonly=True,
+        store=True)
+    price_total = fields.Monetary(
+        compute='_compute_amount',
+        string='Total',
+        readonly=True,
+        store=True)
 
     @api.onchange('sale_order_line_id')
     def _onchange_product_id(self):
-        if self.sale_order_line_id.product_id:
-            self.product_uom_qty = self.sale_order_line_id.product_uom_qty
-            self.description = self.sale_order_line_id.product_id.description_sale or self.sale_order_line_id.product_id.name
-            self.price_unit = self.sale_order_line_id.product_id.lst_price
-            self.product_uom_qty = self.sale_order_line_id.product_uom_qty
-            self.update({'tax_id':self.sale_order_line_id.tax_id.ids})
+        line = self.sale_order_line_id
+        if line.product_id:
+            self.product_uom_qty = line.product_uom_qty
+            self.description = line.product_id.description_sale or\
+                line.product_id.name
+            self.price_unit = line.product_id.lst_price
+            self.product_uom_qty = line.product_uom_qty
+            self.update({'tax_id': line.tax_id.ids})
 
     @api.onchange('product_substitute_id')
     def _onchange_substitute_product(self):
-        self.description = self.product_substitute_id.description_sale or self.product_substitute_id.name
+        self.description = self.product_substitute_id.description_sale or\
+            self.product_substitute_id.name
         self.price_unit = self.product_substitute_id.lst_price
 
     def _compute_price_difference(self):
         for record in self:
-            record.price_difference = record.sale_order_line_id.price_unit - record.price_unit
+            record.price_difference = record.sale_order_line_id.price_unit -\
+                record.price_unit
 
     @api.multi
     def button_substitute_product(self):
         for record in self:
-            product_old_id = record.sale_order_line_id.product_id
-            price_unit_old = record.sale_order_line_id.price_unit
-            quantity_old = record.sale_order_line_id.product_uom_qty
-            description_old = record.sale_order_line_id.product_id.description_sale or record.sale_order_line_id.product_id.name
-            record.sale_order_line_id.write({'product_id':record.product_substitute_id.id,
-                                             'name':record.description,
-                                             'price_unit':record.price_unit,
-                                             'product_uom_qty':record.product_uom_qty})
+            line = record.sale_order_line_id
+            product_old_id = line.product_id
+            price_unit_old = line.price_unit
+            quantity_old = line.product_uom_qty
+            description_old = line.product_id.description_sale or\
+                line.product_id.name
+            line.write({
+                'product_id': record.product_substitute_id.id,
+                'name': record.description,
+                'price_unit': record.price_unit,
+                'product_uom_qty': record.product_uom_qty})
 
-            record.write({'product_substitute_id':product_old_id.id,
-                          'price_unit':price_unit_old,
-                          'product_uom_qty':quantity_old,
-                          'description':description_old})
+            record.write({'product_substitute_id': product_old_id.id,
+                          'price_unit': price_unit_old,
+                          'product_uom_qty': quantity_old,
+                          'description': description_old})
+
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'

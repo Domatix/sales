@@ -32,8 +32,6 @@
         "Ana Juaristi <anajuaristi@avanzosc.es>",
     ],
     "website": "http://www.odoomrp.com",
-    "description": """
-    """,
     'data': ["wizard/purchase_forecast_load_view.xml",
              "views/sale_forecast_view.xml"],
     'demo': [],

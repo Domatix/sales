@@ -28,7 +28,6 @@ class SaleForecast(models.Model):
     forecast_lines = fields.One2many('sale.forecast.line',
                                      'forecast_id', string="Forecast Lines")
 
-    @api.one
     @api.constrains('date_from', 'date_to')
     def check_dates(self):
         if self.date_from >= self.date_to:
@@ -80,10 +79,10 @@ class SaleForecastLine(models.Model):
     _name = 'sale.forecast.line'
     _order = 'forecast_id,product_id,qty,partner_id'
 
-    @api.one
     @api.depends('unit_price', 'qty')
     def _get_subtotal(self):
-        self.subtotal = self.unit_price * self.qty
+        for record in self:
+            record.subtotal = self.unit_price * self.qty
 
     @api.onchange('product_id')
     def onchange_product(self):

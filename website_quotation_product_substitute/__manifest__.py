@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -20,19 +19,21 @@
 #
 ##############################################################################
 {
-'name' : 'Website Quotation Product Substitute',
-'summary': 'Allows to change products by other child products via web.',
-'version' : '11.0.1.0.0',
-'license': 'AGPL-3',
-'author' : 'Domatix',
-'website': 'https://www.domatix.com',
-'category' : 'Sale',
-'depends' : ['website_quote','website'],
-'data': ['views/sale_order.xml',
-         'security/ir.model.access.csv',
-         'views/website_substitute_template.xml'],
-'qweb' : [],
-'demo': [],
-'test': [],
-'installable': True,
+    'name': 'Website Quotation Product Substitute',
+    'summary': 'Allows to change products by other child products via web.',
+    'version': '11.0.1.0.0',
+    'license': 'AGPL-3',
+    'author': 'Domatix',
+    'website': 'https://www.domatix.com',
+    'category': 'Sale',
+    'depends': ['website_quote', 'website'],
+    'data': [
+        'views/sale_order.xml',
+        'security/ir.model.access.csv',
+        'views/website_substitute_template.xml'
+        ],
+    'qweb': [],
+    'demo': [],
+    'test': [],
+    'installable': True,
 }
