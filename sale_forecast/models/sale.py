@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -16,7 +15,7 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, exceptions, _
+from odoo import api, exceptions, fields, models, _
 import odoo.addons.decimal_precision as dp
 
 

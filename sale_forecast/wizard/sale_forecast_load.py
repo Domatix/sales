@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -138,7 +137,8 @@ class SaleForecastLoad(models.TransientModel):
             sales = self.sale_id
         else:
             sale_domain = [('date_order', '>=', self.date_from),
-                           ('date_order', '<=', self.date_to)]
+                           ('date_order', '<=', self.date_to),
+                           ('state', 'in', ['sale', 'done'])]
             if self.partner_id:
                 sale_domain += [('partner_id', '=', self.partner_id.id)]
             sales = sale_obj.search(sale_domain)
