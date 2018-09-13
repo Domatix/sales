@@ -75,13 +75,14 @@ class TestSaleForecastPurchaseLoadFlow(common.TransactionCase):
             "active_id": sf.id
             }
 
-        load_purchases_wizard = self.env['purchase.forecast.load'].with_context(
-            context).create(
-            {
-                'factor': 3,
-                'forecast_id': sf.id,
-                'product_id': self.productsflp.id
-            })
+        load_purchases_wizard = \
+            self.env['purchase.forecast.load'].with_context(
+                context).create(
+                {
+                    'factor': 3,
+                    'forecast_id': sf.id,
+                    'product_id': self.productsflp.id
+                })
         load_purchases_wizard.load_purchases()
         self.assertEqual(
             sum(sf.forecast_lines.mapped('qty')),
