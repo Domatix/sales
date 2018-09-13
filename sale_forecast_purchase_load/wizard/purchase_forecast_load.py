@@ -31,21 +31,11 @@ class PurchaseForecastLoad(models.TransientModel):
             forecast = record.id
         return forecast
 
-    def _get_default_purchase(self):
-        model = self.env.context.get('active_model', False)
-        record = self.env[model].browse(self.env.context.get('active_id'))
-        purchase = False
-        if model == 'purchase.order':
-            purchase = record.id
-        return purchase
-
     def _get_default_date_from(self):
         model = self.env.context.get('active_model', False)
         record = self.env[model].browse(self.env.context.get('active_id'))
         date_from = False
-        if model == 'purchase.order':
-            date_from = record.date_order
-        elif model == 'sale.forecast':
+        if model == 'sale.forecast':
             reg_date = record.date_from
             cur_year = fields.Date.from_string(reg_date).year
             date_from = fields.Date.from_string(reg_date).replace(
@@ -56,9 +46,7 @@ class PurchaseForecastLoad(models.TransientModel):
         model = self.env.context.get('active_model', False)
         record = self.env[model].browse(self.env.context.get('active_id'))
         date_to = False
-        if model == 'purchase.order':
-            date_to = record.date_order
-        elif model == 'sale.forecast':
+        if model == 'sale.forecast':
             reg_date = record.date_to
             cur_year = fields.Date.from_string(reg_date).year
             date_to = fields.Date.from_string(reg_date).replace(
@@ -73,12 +61,6 @@ class PurchaseForecastLoad(models.TransientModel):
     product_categ_id = fields.Many2one("product.category", string="Category")
     product_id = fields.Many2one("product.product", string="Product")
     factor = fields.Float(string="Factor", default=1)
-
-    @api.onchange('forecast_id')
-    def forecast_onchange(self):
-        if self.forecast_id:
-            self.date_from = self.forecast_id.date_from
-            self.date_to = self.forecast_id.date_to
 
     @api.multi
     def match_purchases_forecast(self, purchases, factor):

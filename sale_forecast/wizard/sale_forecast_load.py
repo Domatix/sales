@@ -22,14 +22,6 @@ class SaleForecastLoad(models.TransientModel):
 
     _name = 'sale.forecast.load'
 
-    def _get_default_partner(self):
-        model = self.env.context.get('active_model', False)
-        record = self.env[model].browse(self.env.context.get('active_id'))
-        partner = False
-        if model == 'sale.order':
-            partner = record.partner_id
-        return partner
-
     def _get_default_forecast(self):
         model = self.env.context.get('active_model', False)
         record = self.env[model].browse(self.env.context.get('active_id'))
@@ -37,14 +29,6 @@ class SaleForecastLoad(models.TransientModel):
         if model == 'sale.forecast':
             forecast = record.id
         return forecast
-
-    def _get_default_sale(self):
-        model = self.env.context.get('active_model', False)
-        record = self.env[model].browse(self.env.context.get('active_id'))
-        sale = False
-        if model == 'sale.order':
-            sale = record.id
-        return sale
 
     def _get_default_date_from(self):
         model = self.env.context.get('active_model', False)
@@ -72,39 +56,15 @@ class SaleForecastLoad(models.TransientModel):
                 year=cur_year-1)
         return date_to
 
-    partner_id = fields.Many2one("res.partner", string="Partner",
-                                 default=_get_default_partner)
+    partner_id = fields.Many2one("res.partner", string="Partner")
     date_from = fields.Date(string="Date from", default=_get_default_date_from)
     date_to = fields.Date(string="Date to", default=_get_default_date_to)
-    sale_id = fields.Many2one("sale.order", "Sale",
-                              default=_get_default_sale)
     forecast_id = fields.Many2one("sale.forecast", "Forecast",
                                   default=_get_default_forecast)
     product_categ_id = fields.Many2one("product.category", string="Category")
     product_tmpl_id = fields.Many2one("product.template", string="Template")
     product_id = fields.Many2one("product.product", string="Product")
     factor = fields.Float(string="Factor", default=1)
-
-    @api.onchange('sale_id')
-    def sale_onchange(self):
-        if self.sale_id:
-            self.partner_id = self.sale_id.partner_id.id
-            self.date_from = self.sale_id.date_order
-            self.date_to = self.sale_id.date_order
-
-    @api.onchange('forecast_id')
-    def forecast_onchange(self):
-        if self.forecast_id:
-            from_date = self.forecast_id.date_from
-            to_date = self.forecast_id.date_to
-            f_cur_year = fields.Date.from_string(from_date).year
-            t_cur_year = fields.Date.from_string(to_date).year
-            date_from = fields.Date.from_string(from_date).replace(
-                year=f_cur_year-1)
-            date_to = fields.Date.from_string(to_date).replace(
-                year=t_cur_year-1)
-            self.date_from = date_from
-            self.date_to = date_to
 
     @api.multi
     def match_sales_forecast(self, sales, factor):
@@ -119,10 +79,10 @@ class SaleForecastLoad(models.TransientModel):
             if product not in res[partner]:
                 res[partner][product] = {'qty': 0.0, 'amount': 0.0}
             product_dict = res[partner][product]
-            sum_qty = product_dict['qty'] + sale.product_uom_qty
+            sum_qty = product_dict['qty'] + sale.product_uom_qty * factor
             sum_subtotal = (product_dict['amount'] +
                             sale.price_subtotal)
-            product_dict['qty'] = sum_qty * factor
+            product_dict['qty'] = sum_qty
             product_dict['amount'] = sum_subtotal
         return res
 
@@ -132,22 +92,15 @@ class SaleForecastLoad(models.TransientModel):
         sale_obj = self.env['sale.order']
         product_obj = self.env['product.product']
         self.ensure_one()
-        sales = []
-        if self.sale_id:
-            sales = self.sale_id
-        else:
-            sale_domain = [('date_order', '>=', self.date_from),
-                           ('date_order', '<=', self.date_to),
-                           ('state', 'in', ['sale', 'done'])]
-            if self.partner_id:
-                sale_domain += [('partner_id', '=', self.partner_id.id)]
-            sales = sale_obj.search(sale_domain)
+        sale_domain = [('date_order', '>=', self.date_from),
+                       ('date_order', '<=', self.date_to),
+                       ('state', 'in', ['sale', 'done'])]
+        if self.partner_id:
+            sale_domain += [('partner_id', '=', self.partner_id.id)]
+        sales = sale_obj.search(sale_domain)
         sale_line_domain = [('order_id', 'in', sales.ids)]
         if self.product_id:
             sale_line_domain += [('product_id', '=', self.product_id.id)]
-        elif self.product_tmpl_id:
-            sale_line_domain += [('product_tmpl_id', '=',
-                                  self.product_tmpl_id.id)]
         elif self.product_categ_id:
             products = product_obj.search([('categ_id', '=',
                                             self.product_categ_id.id)])
