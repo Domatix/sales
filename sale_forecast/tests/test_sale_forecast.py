@@ -33,19 +33,19 @@ class TestSaleForecastFlow(common.TransactionCase):
         pricelist = self.pricelist_model.search([
             ('name', '=', 'Public Pricelist')])[0]
 
-        # so_vals = {
-        #     'partner_id': self.partner_agrolite.id,
-        #     'pricelist_id': pricelist.id,
-        #     'order_line': [
-        #         (0, 0, {
-        #             'name': self.productsf.name,
-        #             'product_id': self.productsf.id,
-        #             'product_uom_qty': 1.0,
-        #             'product_uom': uom_id.id,
-        #             'price_unit': 121.0
-        #         })
-        #     ]
-        # }
+        so_vals = {
+            'partner_id': self.partner_agrolite.id,
+            'pricelist_id': pricelist.id,
+            'order_line': [
+                (0, 0, {
+                    'name': self.productsf.name,
+                    'product_id': self.productsf.id,
+                    'product_uom_qty': 1.0,
+                    'product_uom': uom_id.id,
+                    'price_unit': 121.0
+                })
+            ]
+        }
         so_vals2 = {
             'partner_id': self.partner.id,
             'pricelist_id': pricelist.id,
@@ -60,7 +60,7 @@ class TestSaleForecastFlow(common.TransactionCase):
             ]
         }
 
-        # self.so_model.create(so_vals)
+        self.so_model.create(so_vals)
         confirmed_so = self.so_model.create(so_vals2)
         confirmed_so.action_confirm()
 
@@ -77,16 +77,19 @@ class TestSaleForecastFlow(common.TransactionCase):
             "active_id": sf.id
             }
 
-        load_sales_wizard = self.env['sale.forecast.load'].with_context(
+        load_sales_wizard_dict = self.env['sale.forecast.load'].with_context(
             context).create(
             {
                 'factor': 3,
                 'forecast_id': sf.id,
             })
-        load_sales_wizard.load_sales()
+        load_sales_wizard_dict.load_sales()
+        qty = self.po_line_model.search([
+            ('state', 'in', ['sale', 'done']),
+            ('product_id', '=', self.productsf.id)])
         self.assertEqual(
             sum(sf.forecast_lines.mapped('qty')),
-            3,
+            qty*3,
             'Sales are not loaded proper.')
 
     def test_sale_forecast_load_sale_forecast(self):
