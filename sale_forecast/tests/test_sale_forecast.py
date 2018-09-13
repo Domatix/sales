@@ -82,14 +82,12 @@ class TestSaleForecastFlow(common.TransactionCase):
             {
                 'factor': 3,
                 'forecast_id': sf.id,
+                'product_id': self.productsf.id
             })
         load_sales_wizard_dict.load_sales()
-        qty = self.po_line_model.search([
-            ('state', 'in', ['sale', 'done']),
-            ('product_id', '=', self.productsf.id)]).mapped('product_uom_qty')
         self.assertEqual(
             sum(sf.forecast_lines.mapped('qty')),
-            sum(qty)*3,
+            3,
             'Sales are not loaded proper.')
 
     def test_sale_forecast_load_sale_forecast(self):
