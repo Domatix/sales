@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Domatix/sales.svg?branch=11.0)](https://travis-ci.org/Domatix/sales)
+[![codecov](https://codecov.io/gh/Domatix/sales/branch/11.0/graph/badge.svg)](https://codecov.io/gh/Domatix/sales)
 
 <h2>Ventas</h2>
 
