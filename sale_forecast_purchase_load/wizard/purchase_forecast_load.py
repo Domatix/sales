@@ -54,7 +54,10 @@ class PurchaseForecastLoad(models.TransientModel):
         if model == 'purchase.order':
             date_from = record.date_order
         elif model == 'sale.forecast':
-            date_from = record.date_from
+            reg_date = record.date_from
+            cur_year = fields.Date.from_string(reg_date).year
+            date_from = fields.Date.from_string(reg_date).replace(
+                year=cur_year-1)
         return date_from
 
     def _get_default_date_to(self):
@@ -64,10 +67,13 @@ class PurchaseForecastLoad(models.TransientModel):
         if model == 'purchase.order':
             date_to = record.date_order
         elif model == 'sale.forecast':
-            date_to = record.date_to
+            reg_date = record.date_to
+            cur_year = fields.Date.from_string(reg_date).year
+            date_to = fields.Date.from_string(reg_date).replace(
+                year=cur_year-1)
         return date_to
 
-    partner_id = fields.Many2one("res.partner", string="Partner",
+    partner_id = fields.Many2one("res.partner", string="Vendor",
                                  default=_get_default_partner)
     date_from = fields.Date(string="Date from", default=_get_default_date_from)
     date_to = fields.Date(string="Date to", default=_get_default_date_to)
@@ -123,7 +129,8 @@ class PurchaseForecastLoad(models.TransientModel):
             purchases = self.purchase_id
         else:
             purchase_domain = [('date_order', '>=', self.date_from),
-                               ('date_order', '<=', self.date_to)]
+                               ('date_order', '<=', self.date_to),
+                               ('state', 'in', ['purchase', 'done'])]
             if self.partner_id:
                 purchase_domain += [('partner_id', '=', self.partner_id.id)]
             purchases = purchase_obj.search(purchase_domain)

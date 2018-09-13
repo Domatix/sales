@@ -98,8 +98,8 @@ msgstr "Cargar compras"
 
 #. module: sale_forecast_purchase_load
 #: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_partner_id
-msgid "Partner"
-msgstr "Cliente"
+msgid "Vendor"
+msgstr "Proveedor"
 
 #. module: sale_forecast_purchase_load
 #: model:ir.model.fields,field_description:sale_forecast_purchase_load.field_purchase_forecast_load_product_id
@@ -125,4 +125,3 @@ msgstr "o"
 #: model:ir.model,name:sale_forecast_purchase_load.model_purchase_forecast_load
 msgid "purchase.forecast.load"
 msgstr "purchase.forecast.load"
-
