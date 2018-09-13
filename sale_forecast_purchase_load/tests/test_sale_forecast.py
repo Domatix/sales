@@ -58,10 +58,26 @@ class TestSaleForecastPurchaseLoadFlow(common.TransactionCase):
                 })
             ]
         }
+        po_vals3 = {
+            'partner_id': self.partner_agrolite.id,
+            'order_line': [
+                (0, 0, {
+                    'name': self.productsflp.name,
+                    'product_id': self.productsflp.id,
+                    'product_qty': 2.0,
+                    'product_uom': self.productsflp.uom_po_id.id,
+                    'price_unit': 121.0,
+                    'date_planned': datetime.today().strftime(
+                        DEFAULT_SERVER_DATETIME_FORMAT),
+                })
+            ]
+        }
 
         self.po_model.create(po_vals)
         confirmed_po = self.po_model.create(po_vals2)
         confirmed_po.button_confirm()
+        confirmed_po2 = self.po_model.create(po_vals3)
+        confirmed_po2.button_confirm()
         sf_vals = {
             'name': 'Test LP 1',
             'date_from': date.today() + relativedelta(years=1),
@@ -80,11 +96,10 @@ class TestSaleForecastPurchaseLoadFlow(common.TransactionCase):
                 context).create(
                 {
                     'factor': 3,
-                    'forecast_id': sf.id,
                     'product_id': self.productsflp.id
                 })
         load_purchases_wizard.load_purchases()
         self.assertEqual(
             sum(sf.forecast_lines.mapped('qty')),
-            3,
+            9,
             'Sales are not loaded proper.')

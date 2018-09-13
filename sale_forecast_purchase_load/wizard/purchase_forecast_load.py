@@ -23,14 +23,6 @@ class PurchaseForecastLoad(models.TransientModel):
 
     _name = 'purchase.forecast.load'
 
-    def _get_default_partner(self):
-        model = self.env.context.get('active_model', False)
-        record = self.env[model].browse(self.env.context.get('active_id'))
-        partner = False
-        if model == 'purchase.order':
-            partner = record.partner_id
-        return partner
-
     def _get_default_forecast(self):
         model = self.env.context.get('active_model', False)
         record = self.env[model].browse(self.env.context.get('active_id'))
@@ -73,25 +65,14 @@ class PurchaseForecastLoad(models.TransientModel):
                 year=cur_year-1)
         return date_to
 
-    partner_id = fields.Many2one("res.partner", string="Vendor",
-                                 default=_get_default_partner)
+    partner_id = fields.Many2one("res.partner", string="Vendor")
     date_from = fields.Date(string="Date from", default=_get_default_date_from)
     date_to = fields.Date(string="Date to", default=_get_default_date_to)
-    purchase_id = fields.Many2one("purchase.order", "Purchase",
-                                  default=_get_default_purchase)
     forecast_id = fields.Many2one("sale.forecast", "Forecast",
                                   default=_get_default_forecast)
     product_categ_id = fields.Many2one("product.category", string="Category")
-    product_tmpl_id = fields.Many2one("product.template", string="Template")
     product_id = fields.Many2one("product.product", string="Product")
     factor = fields.Float(string="Factor", default=1)
-
-    @api.onchange('purchase_id')
-    def purchase_onchange(self):
-        if self.purchase_id:
-            self.partner_id = self.purchase_id.partner_id.id
-            self.date_from = self.purchase_id.date_order
-            self.date_to = self.purchase_id.date_order
 
     @api.onchange('forecast_id')
     def forecast_onchange(self):
@@ -111,10 +92,10 @@ class PurchaseForecastLoad(models.TransientModel):
             if product not in res[partner]:
                 res[partner][product] = {'qty': 0.0, 'amount': 0.0}
             product_dict = res[partner][product]
-            sum_qty = product_dict['qty'] + purchase.product_qty
+            sum_qty = product_dict['qty'] + purchase.product_qty * factor
             sum_subtotal = (product_dict['amount'] +
                             purchase.price_subtotal)
-            product_dict['qty'] = sum_qty * factor
+            product_dict['qty'] = sum_qty
             product_dict['amount'] = sum_subtotal
         return res
 
@@ -125,21 +106,15 @@ class PurchaseForecastLoad(models.TransientModel):
         product_obj = self.env['product.product']
         self.ensure_one()
         purchases = []
-        if self.purchase_id:
-            purchases = self.purchase_id
-        else:
-            purchase_domain = [('date_order', '>=', self.date_from),
-                               ('date_order', '<=', self.date_to),
-                               ('state', 'in', ['purchase', 'done'])]
-            if self.partner_id:
-                purchase_domain += [('partner_id', '=', self.partner_id.id)]
-            purchases = purchase_obj.search(purchase_domain)
+        purchase_domain = [('date_order', '>=', self.date_from),
+                           ('date_order', '<=', self.date_to),
+                           ('state', 'in', ['purchase', 'done'])]
+        if self.partner_id:
+            purchase_domain += [('partner_id', '=', self.partner_id.id)]
+        purchases = purchase_obj.search(purchase_domain)
         purchase_line_domain = [('order_id', 'in', purchases.ids)]
         if self.product_id:
             purchase_line_domain += [('product_id', '=', self.product_id.id)]
-        elif self.product_tmpl_id:
-            purchase_line_domain += [('product_tmpl_id', '=',
-                                      self.product_tmpl_id.id)]
         elif self.product_categ_id:
             products = product_obj.search([('categ_id', '=',
                                             self.product_categ_id.id)])
