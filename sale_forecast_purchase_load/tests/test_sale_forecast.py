@@ -23,7 +23,7 @@ class TestSaleForecastPurchaseLoadFlow(common.TransactionCase):
         self.partner_id = self.env.ref('base.res_partner_1')
         self.partner_agrolite = self.env.ref('base.res_partner_2')
         self.categ_id = self.categ_model.create({
-            'name': 'Sale Forecast'
+            'name': 'Sale Forecast Purchase Load'
         })
         self.productsflp = self.env['product.product'].create({
             'name': 'Product SF LP',

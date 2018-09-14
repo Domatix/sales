@@ -34,9 +34,7 @@ class SaleForecastLoad(models.TransientModel):
         model = self.env.context.get('active_model', False)
         record = self.env[model].browse(self.env.context.get('active_id'))
         date_from = False
-        if model == 'sale.order':
-            date_from = record.date_order
-        elif model == 'sale.forecast':
+        if model == 'sale.forecast':
             reg_date = record.date_from
             cur_year = fields.Date.from_string(reg_date).year
             date_from = fields.Date.from_string(reg_date).replace(
@@ -47,9 +45,7 @@ class SaleForecastLoad(models.TransientModel):
         model = self.env.context.get('active_model', False)
         record = self.env[model].browse(self.env.context.get('active_id'))
         date_to = False
-        if model == 'sale.order':
-            date_to = record.date_order
-        elif model == 'sale.forecast':
+        if model == 'sale.forecast':
             reg_date = record.date_to
             cur_year = fields.Date.from_string(reg_date).year
             date_to = fields.Date.from_string(reg_date).replace(

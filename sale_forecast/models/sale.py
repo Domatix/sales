@@ -31,7 +31,7 @@ class SaleForecast(models.Model):
     @api.constrains('date_from', 'date_to')
     def check_dates(self):
         if self.date_from >= self.date_to:
-            raise exceptions.Warning(_('Error! Date to must be lower '
+            raise exceptions.UserError(_('Error! Date to must be lower '
                                        'than date from.'))
 
     @api.multi
