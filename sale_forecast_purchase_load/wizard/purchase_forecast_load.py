@@ -67,7 +67,7 @@ class PurchaseForecastLoad(models.TransientModel):
         self.ensure_one()
         res = {}
         for purchase in purchases:
-            partner = self.partner_id.id
+            partner = purchase.partner_id.id
             product = purchase.product_id.id
             if partner not in res:
                 res[partner] = {}
