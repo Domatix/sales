@@ -23,6 +23,7 @@
         "product",
         "sale",
         "stock",
+        "sale_stock",
     ],
     "license": "AGPL-3",
     "author": "Carlos Martínez <carlos@domatix.com>, "

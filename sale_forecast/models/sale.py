@@ -82,7 +82,7 @@ class SaleForecastLine(models.Model):
     @api.depends('unit_price', 'qty')
     def _get_subtotal(self):
         for record in self:
-            record.subtotal = self.unit_price * self.qty
+            record.subtotal = record.unit_price * record.qty
 
     @api.onchange('product_id')
     def onchange_product(self):

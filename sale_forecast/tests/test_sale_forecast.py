@@ -278,6 +278,7 @@ class TestSaleForecastFlow(common.TransactionCase):
         self.so_model.create(so_vals)
         invoiced_so = self.so_model.create(so_vals2)
         invoiced_so.action_confirm()
+        invoiced_so.action_invoice_create()
 
         sf = self.sf_model.create(sf_vals)
         self.sf_line_model.create({
@@ -285,16 +286,14 @@ class TestSaleForecastFlow(common.TransactionCase):
             'product_category_id': self.categ_id2.id,
             'qty': 1,
         })
-        self.sf_line_model.create({
+        line = self.sf_line_model.create({
             'forecast_id': sf.id,
-            'product_id': self.productsf3.id,
+            'product_id': self.productsf4.id,
             'partner_id': self.partner_agrolite.id,
             'qty': 1,
         })
-        self.assertEqual(
-            sum(sf.forecast_lines.mapped('actual_qty')),
-            1,
-            'Actual quantities are not computed proper.')
+        line.product_id = self.productsf3.id,
+        line.onchange_product()
 
         self.sf_line_model.create({
             'forecast_id': sf.id,
@@ -302,10 +301,11 @@ class TestSaleForecastFlow(common.TransactionCase):
             'partner_id': self.partner_agrolite.id,
             'qty': 1,
         })
+        self.assertEqual(
+            sum(sf.forecast_lines.mapped('actual_qty')),
+            2,
+            'Actual quantities are not computed proper.')
 
-        invoiced_so = self.so_model.create(so_vals2)
-        invoiced_so.action_confirm()
-        invoiced_so.action_invoice_create()
         invoiced_so2 = self.so_model.create(so_vals3)
         invoiced_so2.action_confirm()
         invoiced_so2.action_invoice_create()
