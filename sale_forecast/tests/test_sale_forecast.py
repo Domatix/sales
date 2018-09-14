@@ -162,7 +162,7 @@ class TestSaleForecastFlow(common.TransactionCase):
             with_context(context).create(
                 {
                     'factor': 3,
-                    'product_categ_id': self.productsf.id,
+                    'product_categ_id': self.categ_id.id,
                     'partner_id': self.partner.id
                 })
         load_sales_wizard_partner.load_sales()

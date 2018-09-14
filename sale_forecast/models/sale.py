@@ -32,7 +32,7 @@ class SaleForecast(models.Model):
     def check_dates(self):
         if self.date_from >= self.date_to:
             raise exceptions.ValidationError(_('Error! Date to must be lower '
-                                       'than date from.'))
+                                             'than date from.'))
 
     @api.multi
     def recalculate_actual_qty(self):
