@@ -1,6 +1,6 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 from odoo.tests import common
 
 
@@ -35,6 +35,20 @@ class TestSaleForecastFlow(common.TransactionCase):
             'name': 'Product Sale Forecast2',
             'type': 'product',
             'categ_id': self.categ_id.id,
+        })
+
+        self.categ_id2 = self.categ_model.create({
+            'name': 'Sale Forecast 2'
+        })
+        self.productsf3 = self.env['product.product'].create({
+            'name': 'Product Sale Forecast',
+            'type': 'product',
+            'categ_id': self.categ_id2.id,
+        })
+        self.productsf4 = self.env['product.product'].create({
+            'name': 'Product Sale Forecast2',
+            'type': 'product',
+            'categ_id': self.categ_id2.id,
         })
 
     def test_sale_forecast_load_sales(self):
@@ -95,6 +109,21 @@ class TestSaleForecastFlow(common.TransactionCase):
                 })
             ]
         }
+        sf_vals = {
+            'name': 'Test 1',
+            'date_from': date.today() + relativedelta(years=2),
+            'date_to': date.today() + relativedelta(years=1),
+
+        }
+        with self.assertRaises(ValidationError):
+            self.sf_model.create(sf_vals)
+        sf_vals = {
+            'name': 'Test 1',
+            'date_from': date.today() + relativedelta(years=1),
+            'date_to': date.today() + relativedelta(years=2),
+
+        }
+        self.sf_model.create(sf_vals)
 
         self.so_model.create(so_vals)
         confirmed_so = self.so_model.create(so_vals2)
@@ -104,13 +133,6 @@ class TestSaleForecastFlow(common.TransactionCase):
         confirmed_so3 = self.so_model.create(so_vals4)
         confirmed_so3.action_confirm()
 
-        sf_vals = {
-            'name': 'Test 1',
-            'date_from': date.today() + relativedelta(years=1),
-            'date_to': date.today() + relativedelta(years=2),
-
-        }
-        self.assertRaises(UserError, self.sf_model.create(sf_vals))
         sf = self.sf_model.create(sf_vals)
         context = {
             "active_model": 'sale.forecast',
@@ -205,8 +227,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.productsf.name,
-                    'product_id': self.productsf.id,
+                    'name': self.productsf3.name,
+                    'product_id': self.productsf3.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -218,8 +240,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.productsf.name,
-                    'product_id': self.productsf.id,
+                    'name': self.productsf3.name,
+                    'product_id': self.productsf3.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -231,8 +253,8 @@ class TestSaleForecastFlow(common.TransactionCase):
             'pricelist_id': pricelist.id,
             'order_line': [
                 (0, 0, {
-                    'name': self.productsf2.name,
-                    'product_id': self.productsf2.id,
+                    'name': self.productsf4.name,
+                    'product_id': self.productsf4.id,
                     'product_uom_qty': 1.0,
                     'product_uom': uom_id.id,
                     'price_unit': 121.0
@@ -246,7 +268,7 @@ class TestSaleForecastFlow(common.TransactionCase):
             'date_to': date.today() + relativedelta(months=1),
             'forecast_lines': [
                 (0, 0, {
-                    'product_id': self.productsf.id,
+                    'product_id': self.productsf3.id,
                     'qty': 1,
                 }),
 
@@ -256,7 +278,7 @@ class TestSaleForecastFlow(common.TransactionCase):
         sf = self.sf_model.create(sf_vals)
         self.sf_line_model.create({
             'forecast_id': sf.id,
-            'product_categ_id': self.categ_id.id,
+            'product_category_id': self.categ_id2.id,
             'qty': 1,
         })
         self.so_model.create(so_vals)
