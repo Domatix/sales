@@ -4,7 +4,7 @@
     "name": "Sale Forecast",
     "summary": "Sale forecast, based on procurement_sale_forecast",
     "version": "11.0.1.0.0",
-    "author": "Domatix"
+    "author": "Domatix",
     "license": "AGPL-3",
     "category": "Sales",
     "website": "http://www.domatix.com",
