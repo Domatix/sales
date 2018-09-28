@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
 <odoo>
         <menuitem id="menu_stock_sale_forecast" name="Sales Forecasts"
             parent="sale.sale_menu_root" sequence="2" groups="base.group_user"/>

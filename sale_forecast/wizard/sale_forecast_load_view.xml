@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+-->
 <odoo>
         <record model="ir.ui.view" id="sale_forecast_load_form_view">
             <field name="name">sale.forecast.load.sale.form</field>

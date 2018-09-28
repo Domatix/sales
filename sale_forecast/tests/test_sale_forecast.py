@@ -1,3 +1,5 @@
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
+
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
