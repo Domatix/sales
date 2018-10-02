@@ -16,10 +16,7 @@
         "Daniel Campos <danielcampos@avanzosc.es>",
     ],
     "depends": [
-        "base",
         "product",
-        "sale",
-        "stock",
         "sale_stock",
     ],
     "data": ["security/ir.model.access.csv",

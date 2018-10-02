@@ -21,42 +21,8 @@ class SaleForecast(models.Model):
 
     @api.multi
     def recalculate_actual_qty(self):
-        sale_obj = self.env['sale.order.line']
-        prod_obj = self.env['product.product']
         for record in self.forecast_lines:
-            if record.product_id:
-                if record.partner_id:
-                    sale_ids = sale_obj.search([
-                        ('product_id', '=', record.product_id.id),
-                        ('order_id.partner_id', '=', record.partner_id.id),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
-                else:
-                    sale_ids = sale_obj.search([
-                        ('product_id', '=', record.product_id.id),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
-                record.actual_qty = sum(sale_ids.mapped('product_uom_qty'))
-
-            elif record.product_category_id:
-                product_ids = prod_obj.search([
-                    ('categ_id', '=', record.product_category_id.id)])
-                if record.partner_id:
-                    sale_ids = sale_obj.search([
-                        ('product_id', 'in', product_ids.ids),
-                        ('order_id.partner_id', '=', record.partner_id.id),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
-                else:
-                    sale_ids = sale_obj.search([
-                        ('product_id', 'in', product_ids.ids),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
-                record.actual_qty = sum(sale_ids.mapped('product_uom_qty'))
+            record._compute_actual_qty()
 
 
 class SaleForecastLine(models.Model):
@@ -64,6 +30,7 @@ class SaleForecastLine(models.Model):
     _name = 'sale.forecast.line'
     _order = 'forecast_id,product_id,qty,partner_id'
 
+    @api.multi
     @api.depends('unit_price', 'qty')
     def _get_subtotal(self):
         for record in self:
@@ -104,41 +71,31 @@ class SaleForecastLine(models.Model):
         compute='_compute_actual_qty',
         store=True)
 
+    @api.multi
     @api.depends('forecast_id.forecast_lines')
     def _compute_actual_qty(self):
         sale_obj = self.env['sale.order.line']
         prod_obj = self.env['product.product']
         for record in self:
+            domain = [
+                ('invoice_status', '=', 'invoiced'),
+                ('order_id.confirmation_date', '>=', record.date_from),
+                ('order_id.confirmation_date', '<=', record.date_to)
+            ]
             if record.product_id:
+                domain += [('product_id', '=', record.product_id.id)]
                 if record.partner_id:
-                    sale_ids = sale_obj.search([
-                        ('product_id', '=', record.product_id.id),
-                        ('order_id.partner_id', '=', record.partner_id.id),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
-                else:
-                    sale_ids = sale_obj.search([
-                        ('product_id', '=', record.product_id.id),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
+                    domain += [
+                        ('order_id.partner_id', '=', record.partner_id.id)]
+                sale_ids = sale_obj.search(domain)
                 record.actual_qty = sum(sale_ids.mapped('product_uom_qty'))
 
             elif record.product_category_id:
                 product_ids = prod_obj.search([
                     ('categ_id', '=', record.product_category_id.id)])
+                domain += [('product_id', 'in', product_ids.ids)]
                 if record.partner_id:
-                    sale_ids = sale_obj.search([
-                        ('product_id', 'in', product_ids.ids),
-                        ('order_id.partner_id', '=', record.partner_id.id),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
-                else:
-                    sale_ids = sale_obj.search([
-                        ('product_id', 'in', product_ids.ids),
-                        ('invoice_status', '=', 'invoiced'),
-                        ('order_id.confirmation_date', '>=', record.date_from),
-                        ('order_id.confirmation_date', '<=', record.date_to)])
+                    domain += [
+                        ('order_id.partner_id', '=', record.partner_id.id)]
+                sale_ids = sale_obj.search(domain)
                 record.actual_qty = sum(sale_ids.mapped('product_uom_qty'))
