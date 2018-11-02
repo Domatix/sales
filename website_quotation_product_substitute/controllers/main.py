@@ -19,7 +19,6 @@ class SaleQuote(http.Controller):
             return False
         LineSub = request.env['sale.order.substitute'].sudo().browse(
             int(line_id))
-        # request.env['sale.order.line'].sudo().browse(int(line_id))
         LineSub.button_substitute_product()
         return werkzeug.utils.redirect(
             "/quote/%s/%s#quote_header_2" % (Order.id, token))
