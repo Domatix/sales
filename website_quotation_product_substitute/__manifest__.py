@@ -5,7 +5,7 @@
     'version': '11.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Domatix',
-    'website': 'https://github.com/OCA/sale-workflow',
+    'website': 'https://www.domatix.com',
     'category': 'Sale',
     'depends': ['website_quote'],
     'data': [
