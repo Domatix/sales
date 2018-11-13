@@ -5,9 +5,9 @@
     'version': '11.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Domatix',
-    'website': 'https://www.domatix.com',
+    'website': 'https://github.com/OCA/sale-workflow',
     'category': 'Sale',
-    'depends': ['website_quote', 'website'],
+    'depends': ['website_quote'],
     'data': [
         'views/sale_order_view.xml',
         'security/ir.model.access.csv',

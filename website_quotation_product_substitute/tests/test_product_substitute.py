@@ -5,7 +5,6 @@ class TestProductSubstitute(common.TransactionCase):
 
     def setUp(self):
         super(TestProductSubstitute, self).setUp()
-        # Useful models
 
         self.so_model = self.env['sale.order']
         self.po_line_model = self.env['sale.order.line']
@@ -14,25 +13,25 @@ class TestProductSubstitute(common.TransactionCase):
         self.product_uom_model = self.env['product.uom']
         self.pricelist_model = self.env['product.pricelist']
         self.partner = self.env.ref('base.res_partner_1')
-        self.product1 = self.env['product.product'].create({
+        self.product1 = self.product_model.create({
             'name': 'Product A',
             'type': 'product',
             'lst_price': 1,
             'categ_id': self.env.ref('product.product_category_all').id,
         })
-        self.product2 = self.env['product.product'].create({
+        self.product2 = self.product_model.create({
             'name': 'Product B',
             'type': 'product',
             'lst_price': 2,
             'categ_id': self.env.ref('product.product_category_all').id,
         })
-        self.product3 = self.env['product.product'].create({
+        self.product3 = self.product_model.create({
             'name': 'Product C',
             'type': 'product',
             'lst_price': 3,
             'categ_id': self.env.ref('product.product_category_all').id,
         })
-        self.product4 = self.env['product.product'].create({
+        self.product4 = self.product_model.create({
             'name': 'Product D',
             'type': 'product',
             'lst_price': 4,
